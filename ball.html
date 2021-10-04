@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+
+    <style type="text/css">
+        body {
+            background-color: white;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <canvas id="canvas-for-ball"></canvas>
+
+    <script type="text/javascript">
+        // Gets a handle to the element with id canvasOne.
+        var canvas = document.getElementById("canvas-for-ball");
+        // Get a 2D context for the canvas.
+        var ctx = canvas.getContext("2d");
+
+        canvas.width = 400;
+        canvas.height = 400;
+
+        var yVel = 4; // speed of ball
+        var wallPos = canvas.height;
+        var wallTop = 0;
+        var radius = 20;
+        var wallRight = canvas.width;
+        var wallLeft = 0;
+
+        // The vertical location of the ball.
+        var y = 30;
+
+        var xVel = 4; // speed
+        var x = 30; // horizontal location of 2nd ball
+
+
+        // A function to repeat every time the animation loops.
+        function repeatme() {
+            // Draw the ball (stroked, not filled).
+            ctx.beginPath();
+            ctx.fillStyle = "red";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            //ctx.clearRect(50, y, 5, 5);
+            ctx.arc(190, y, radius, 0, 2 * Math.PI);
+            ctx.stroke();
+
+            // Draw 2nd ball (stroked, not filled).
+            ctx.beginPath();
+            ctx.arc(x, 190, radius, 0, 2 * Math.PI);
+            ctx.stroke();
+
+            // Add name to top of Canvas
+            ctx.fillStyle = 'black'; // change color of text
+            ctx.font = "20px Arial";  // setting the font of the text
+            ctx.fillText("Rory Taaffe", 20, 20); // content, height and width of text
+
+            // Update the y location.
+            y += yVel;
+            x += xVel;
+
+            /*
+            // Stop the ball
+            if (y > wallPos) {
+                //yVel *- 2;
+                yVel = yVel * 0;
+                //console.log(y);
+            }
+            */
+
+            // change direction , 20 is the radius so take that away from the wallPos
+            if (y > wallPos - radius) { 
+                yVel = yVel * -1;
+            }
+
+            else if (y < wallTop + radius) {
+                yVel = yVel * -1;
+            }
+
+
+            if (x > wallRight + radius) {
+                xVel = xVel * -1;
+            }
+
+            else if (x < wallLeft - radius) {
+                xVel = xVel * -1;
+            }
+
+
+            console.log(y);
+
+            window.requestAnimationFrame(repeatme);
+        }
+
+        // Get the animation going.
+        repeatme();
+
+        /*
+        // Encapsulation
+        class Ball {
+
+            constructor(xPos, yPos, xVel, yVel, radius) {
+                this.xPos = xPos;
+                this.yPos = yPos;
+                this.xVel = xVel;
+                this.yVel = yVel;
+                this.radius = radius;
+            }
+
+            Draw() {
+                ctx.arc(xPos, yPos, radius, 0, 2 * Math.PI); // create ball
+                ctx.stroke(); // render
+                yPos += yVel; // update y location
+                console.log(yPos);
+                window.requestAnimationFrame(Draw);
+            }
+
+            Move() {
+                //ctx.beginPath();
+                //ctx.arc(xPos, yPos, radius, 0, 2 * Math.PI);
+                //ctx.stroke();
+            }
+
+        }
+
+        let myBall = new Ball(100, 20, 5, 5, 20);
+        myBall.Draw();
+        */
+
+    </script>
+
+</body>
+
+</html>
